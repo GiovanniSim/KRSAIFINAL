@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - KRS-AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+
+<body class="student-dashboard">
+
+    {% include 'sidebar.html' %}
+
+    <div class="main-content">
+
+        {% include 'navbar.html' %}
+
+        <main class="dashboard">
+
+            <section class="welcome-card">
+                <h1>Dashboard KRS-AI</h1>
+                <p>Selamat datang di Sistem Rekomendasi KRS-AI 👋</p>
+                <p>Mulai perjalanan akademikmu bersama KRS-AI.</p>
+            </section>
+
+            <section class="dashboard-cards">
+
+                <!-- Kartu Sesi Chat AI -->
+                <div class="dashboard-card">
+                    <div class="card-icon">🤖</div>
+                    <h2>Sesi Chat AI</h2>
+                    <p>Diskusikan rekomendasi mata kuliah bersama AI.</p>
+                    <a class="dashboard-button"
+                       href="{{ url_for('chat') }}">
+                        Mulai Chat
+                    </a>
+                </div>
+
+                <!-- Kartu Rekomendasi KRS -->
+                <div class="dashboard-card">
+                    <div class="card-icon">📚</div>
+                    <h2>Rekomendasi KRS</h2>
+
+                    {% if hasil_rekomendasi %}
+
+                        <p>Berikut ringkasan rekomendasi KRS terakhirmu.</p>
+
+                        <div class="recommendation-summary">
+                            <div>
+                                <span>Semester Tujuan</span>
+                                <strong>
+                                    {{ hasil_rekomendasi.get('semester', 0) }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Total SKS</span>
+                                <strong>
+                                    {{ hasil_rekomendasi.get('total_sks', 0) }} SKS
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Jumlah Mata Kuliah</span>
+                                <strong>
+                                    {{ hasil_rekomendasi.get('direkomendasikan', []) | length }}
+                                </strong>
+                            </div>
+                        </div>
+
+                        <a class="dashboard-button"
+                           href="{{ url_for('open_chat', session_id=rekomendasi_terakhir.session_id) }}">
+                            Lihat Detail Rekomendasi
+                        </a>
+
+                    {% else %}
+
+                        <p>
+                            Kamu belum memiliki rekomendasi KRS.
+                            Unggah KHS terlebih dahulu agar sistem dapat
+                            menganalisis dan memberikan rekomendasi.
+                        </p>
+
+                        <a class="dashboard-button"
+                           href="{{ url_for('chat') }}">
+                            Upload KHS
+                        </a>
+
+                    {% endif %}
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+</html>

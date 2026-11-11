@@ -1,0 +1,38 @@
+
+<!-- Tombol hamburger untuk HP dan tablet -->
+<button
+    class="mobile-menu-toggle"
+    id="mobileMenuToggle"
+    type="button"
+    aria-label="Buka menu"
+    aria-expanded="false">
+    ☰
+</button>
+
+<!-- Overlay di belakang sidebar -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="studentSidebar">
+
+    <div class="sidebar-header">
+        <h2>KRS-AI</h2>
+    </div>
+
+    <div class="sidebar-menu">
+
+        <a href="{{ url_for('dashboard') }}">
+            🏠 Dashboard
+        </a>
+
+        <a href="{{ url_for('chat') }}">
+            💬 Chat New
+        </a>
+
+        <a href="{{ url_for('histori') }}">
+            🕘 Histori Chat
+        </a>
+
+    </div>
+
+</div>

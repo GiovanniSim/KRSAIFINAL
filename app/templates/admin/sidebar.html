@@ -1,0 +1,86 @@
+
+<aside class="admin-sidebar">
+
+    <a href="{{ url_for('admin.admin') }}" class="brand">
+        <span class="brand-logo">K</span>
+        <span class="brand-text">
+            <strong>KRS AI</strong>
+            <small>Admin Panel</small>
+        </span>
+    </a>
+
+    <p class="menu-label">MENU UTAMA</p>
+
+    <a href="{{ url_for('admin.admin') }}"
+       class="menu-link {% if not filter_fakultas and not filter_prodi and not filter_kelas %}active{% endif %}">
+        <span>▦</span>
+        Dashboard
+    </a>
+
+    <p class="menu-label">MANAJEMEN AKADEMIK</p>
+
+    <details open>
+        <summary>▤ &nbsp; Fakultas</summary>
+
+        <div class="tree">
+            {% for f in struktur %}
+            <details {% if filter_fakultas == f.nama %}open{% endif %}>
+
+                <summary>
+                    <a href="{{ url_for('admin.admin', fakultas=f.nama) }}"
+                       class="tree-link {% if filter_fakultas == f.nama and not filter_prodi %}active{% endif %}"
+                       onclick="event.stopPropagation();">
+                        {{ f.nama }}
+                    </a>
+                </summary>
+
+                <div class="tree">
+                    {% for p in f.prodi %}
+                    <details {% if filter_prodi == p.nama and filter_fakultas == f.nama %}open{% endif %}>
+
+                        <summary>
+                            <a href="{{ url_for('admin.admin', fakultas=f.nama, prodi=p.nama) }}"
+                               class="tree-link {% if filter_prodi == p.nama and filter_fakultas == f.nama and not filter_kelas %}active{% endif %}"
+                               onclick="event.stopPropagation();">
+                                {{ p.nama }}
+                            </a>
+                        </summary>
+
+                        <div class="tree">
+                            {% for k in p.kelas %}
+                            <a href="{{ url_for('admin.admin', fakultas=f.nama, prodi=p.nama, kelas=k) }}"
+                               class="tree-link {% if filter_kelas == k and filter_prodi == p.nama and filter_fakultas == f.nama %}active{% endif %}">
+                                {{ k }}
+                            </a>
+                            {% endfor %}
+                        </div>
+
+                    </details>
+                    {% endfor %}
+                </div>
+
+            </details>
+            {% endfor %}
+        </div>
+    </details>
+
+    <a href="{{ url_for('admin.admin') }}"
+       class="menu-link">
+        <span>♙</span>
+        Semua Mahasiswa
+    </a>
+
+    <a href="{{ url_for('admin.admin_mata_kuliah') }}"
+        class="menu-link">
+            <span>＋</span>
+            Tambah Mata Kuliah
+    </a>
+
+    <div class="sidebar-bottom">
+        <a href="{{ url_for('logout') }}" class="menu-link">
+            <span>⇥</span>
+            Logout
+        </a>
+    </div>
+
+</aside>

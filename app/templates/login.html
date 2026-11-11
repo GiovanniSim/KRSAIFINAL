@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - KRS-AI</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/login.css') }}"
+    >
+</head>
+
+
+<body>
+
+<div class="login-card">
+    <img src="{{ url_for('static', filename='img/krsAI.png') }}" alt="Logo KRS-AI" class="logo-krs">
+
+    <h1>KRS-AI</h1>
+    <h2>Login</h2>
+
+    <form method="POST">
+        <label for="npm">NPM</label>
+        <input type="text" id="npm" name="npm" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p>
+        Belum punya akun?
+        <a href="{{ url_for('register') }}">Registrasi</a>
+    </p>
+</div>
+
+</body>
+</html>

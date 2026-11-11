@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Histori Chat - KRS-AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+
+<body class="student-dashboard">
+
+    {% include "sidebar.html" %}
+
+    <div class="main-content">
+
+        {% include "navbar.html" %}
+
+        <main class="history-container">
+
+            <div class="history-header">
+                <div>
+                    <h1>Histori Chat</h1>
+                    <p>Lihat kembali percakapanmu bersama AI.</p>
+                </div>
+            </div>
+
+            {% if chat_sessions %}
+
+                <div class="history-list">
+
+                    {% for chat in chat_sessions %}
+
+                        <div class="history-item">
+
+                            <div class="history-info">
+                                <div class="history-icon">💬</div>
+
+                                <div class="history-details">
+                                    <h3>{{ chat.judul }}</h3>
+
+                                    <p>
+                                        {{ chat.tanggal.strftime('%d-%m-%Y %H:%M') }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <a class="history-button"
+                               href="{{ url_for('open_chat', session_id=chat.id) }}">
+                                Lihat Chat →
+                            </a>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="history-empty">
+                    <div class="empty-icon">💭</div>
+                    <h2>Belum Ada Histori Chat</h2>
+                    <p>Percakapan yang kamu lakukan dengan AI akan muncul di sini.</p>
+                </div>
+
+            {% endif %}
+
+        </main>
+
+    </div>
+
+</body>
+</html>

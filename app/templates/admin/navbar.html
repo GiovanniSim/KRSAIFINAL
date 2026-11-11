@@ -1,0 +1,24 @@
+
+<nav class="admin-navbar">
+
+    <div class="navbar-title">
+        <h3>{{ judul_halaman }}</h3>
+        <p>Admin / {{ judul_halaman }}</p>
+    </div>
+
+    <div class="profile">
+
+        <div class="avatar">A</div>
+
+        <div class="profile-info">
+            <strong>{{ nama_admin }}</strong>
+            <small>Administrator</small>
+        </div>
+
+        <a href="{{ url_for('logout') }}" class="logout-link">
+            Logout
+        </a>
+
+    </div>
+
+</nav>

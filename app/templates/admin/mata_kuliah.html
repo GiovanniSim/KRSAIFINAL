@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Mata Kuliah - KRS AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+    <div class="admin-layout">
+
+        {% include "admin/sidebar.html" %}
+
+        <div class="admin-main">
+
+            {% include "admin/navbar.html" %}
+
+            <main class="admin-content">
+
+                <!-- JUDUL HALAMAN -->
+                <section class="welcome">
+                    <h2>Kelola Mata Kuliah</h2>
+                    <p>
+                        Kelola data mata kuliah untuk sistem rekomendasi KRS AI.
+                    </p>
+                </section>
+
+                <!-- STATISTIK -->
+                <section class="summary">
+
+                    <!-- Total seluruh mata kuliah -->
+                    <div class="stat-card">
+                        <span>Total Mata Kuliah</span>
+                        <small>Keseluruhan Fakultas</small>
+                        <h2>{{ semua_matkul|length }}</h2>
+                    </div>
+
+                    <!-- Total per fakultas -->
+                    {% for fakultas, jumlah in total_per_fakultas.items() %}
+                    <div class="stat-card">
+                        <small>Total Mata Kuliah</small>
+                        <span>{{ fakultas }}</span>
+                        <h2>{{ jumlah }}</h2>
+                    </div>
+                    {% endfor %}
+
+                </section>
+
+                <!-- TABEL MATA KULIAH -->
+                <section class="content-card">
+                <div class="table-heading">
+                    <div>
+                        <h2>Daftar Mata Kuliah</h2>
+                        <p>Data mata kuliah berdasarkan semester dan kode.</p>
+                    </div>
+
+                    <div class="table-actions">
+                        <div class="matkul-search">
+                            <span>⌕</span>
+                            <input
+                                type="text"
+                                id="cariMatkul"
+                                placeholder="Cari mata kuliah..."
+                                autocomplete="off">
+                            <button type="button"
+                                    id="hapusCariMatkul"
+                                    onclick="resetCariMatkul()">
+                                ✕
+                            </button>
+                        </div>
+
+                        <button type="button"
+                                class="btn btn-save"
+                                onclick="bukaModalMatkul()">
+                            + Tambah Mata Kuliah
+                        </button>
+                    </div>
+                </div>
+
+                <p id="hasilCariMatkul" class="hasil-cari-matkul"></p>
+
+                    <div class="table-wrap">
+                        <table id="tabelMatkul">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Kode Mata Kuliah</th>
+                                    <th>Nama Mata Kuliah</th>
+                                    <th>Fakultas</th>
+                                    <th>Program Studi</th>
+                                    <th>SKS</th>
+                                    <th>Semester</th>
+                                    <th>Prasyarat</th>
+                                    <th>Min SKS Lulus</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for matkul in semua_matkul %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+
+                                    <td>
+                                        <span class="code-badge">
+                                            {{ matkul.kode }}
+                                        </span>
+                                    </td>
+
+                                    <td class="course-name">
+                                        {{ matkul.matkul }}
+                                    </td>
+
+                                    <td class="course-name">
+                                        {{ matkul.fakultas }}
+                                    </td>
+
+                                    <td class="course-name">
+                                        {{ matkul.prodi }}
+                                    </td>
+
+                                    <td>
+                                        <span class="sks-badge">
+                                            {{ matkul.sks }} SKS
+                                        </span>
+                                    </td>
+
+                                    <td>Semester {{ matkul.semester }}</td>
+
+                                    <td class="course-name">
+                                        {% set daftar = namespace(kode=[]) %}
+
+                                        {% for p in matkul.semua_prasyarat %}
+                                            {% set _ = daftar.kode.append(p.kode_prasyarat) %}
+                                        {% endfor %}
+
+                                        {% if daftar.kode %}
+                                            {{ daftar.kode | join(", ") }}
+                                        {% else %}
+                                            Tidak ada
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <button
+                                            type="button"
+                                            class="btn btn-save"
+                                            onclick="bukaModalEdit(this)"
+                                            data-kode="{{ matkul.kode }}"
+                                            data-matkul="{{ matkul.matkul }}"
+                                            data-sks="{{ matkul.sks }}"
+                                            data-semester="{{ matkul.semester }}"
+                                            data-fakultas="{{ matkul.fakultas }}"
+                                            data-prodi="{{ matkul.prodi }}"
+                                            data-minimal-sks="{{ matkul.minimal_sks if matkul.minimal_sks is not none else '' }}"
+                                            data-prasyarat="{{ matkul.semua_prasyarat | map(attribute='kode_prasyarat') | join(',') }}">
+                                            Edit
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                {% else %}
+                                <tr>
+                                    <td colspan="9" class="empty">
+                                        Belum ada data mata kuliah.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-footer">
+                        <span>
+                            Menampilkan {{ semua_matkul|length }} mata kuliah
+                        </span>
+
+                        <a class="back-button"
+                           href="{{ url_for('admin.admin') }}">
+                            ← Kembali ke Dashboard
+                        </a>
+                    </div>
+
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL TAMBAH MATA KULIAH -->
+    <div class="modal" id="modalTambahMatkul">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3>Tambah Mata Kuliah</h3>
+
+                <button type="button"
+                        class="close-btn"
+                        onclick="tutupModalMatkul()">
+                    &times;
+                </button>
+            </div>
+
+            <form method="POST"
+                action="{{ url_for('admin.tambah_matakuliah') }}">
+
+                <div class="form-group">
+                    <label>Kode Mata Kuliah</label>
+                    <input type="text"
+                        name="kode"
+                        placeholder="Contoh: IF101"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Mata Kuliah</label>
+                    <input type="text"
+                        name="matkul"
+                        placeholder="Nama mata kuliah"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Jumlah SKS</label>
+                    <input type="number"
+                        name="sks"
+                        min="1"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Semester</label>
+                    <input type="number"
+                        name="semester"
+                        min="1"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Fakultas</label>
+                    <input type="text"
+                        name="fakultas"
+                        placeholder="Nama fakultas"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Program Studi</label>
+                    <input type="text"
+                        name="prodi"
+                        placeholder="Nama program studi"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Mata Kuliah Prasyarat</label>
+
+                    <div class="prasyarat-picker" id="prasyaratTambah">
+                        <div class="prasyarat-search">
+                            <span>⌕</span>
+                            <input type="text"
+                                class="prasyarat-cari"
+                                placeholder="Cari kode atau nama mata kuliah...">
+                        </div>
+
+                        <div class="prasyarat-hasil">
+                            {% for m in daftar_prasyarat %}
+                            <button type="button"
+                                    class="prasyarat-item"
+                                    data-kode="{{ m.kode }}"
+                                    data-nama="{{ m.matkul }}">
+                                <span>
+                                    <strong>{{ m.kode }}</strong>
+                                    <small>{{ m.matkul }}</small>
+                                </span>
+                                <span class="prasyarat-centang">+</span>
+                            </button>
+                            {% endfor %}
+                        </div>
+
+                        <div class="prasyarat-terpilih"></div>
+                        <div class="prasyarat-hidden"></div>
+                    </div>
+
+                    <small>Cari lalu klik mata kuliah untuk memilih lebih dari satu.</small>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button"
+                            class="btn btn-cancel"
+                            onclick="tutupModalMatkul()">
+                        Batal
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-save">
+                        Simpan Mata Kuliah
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT MATA KULIAH -->
+    <div class="modal" id="modalEditMatkul">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Mata Kuliah</h3>
+
+                <button type="button"
+                        class="close-btn"
+                        onclick="tutupModalEdit()">
+                    &times;
+                </button>
+            </div>
+
+            <form method="POST" id="formEditMatkul">
+
+                <div class="form-group">
+                    <label>Kode Mata Kuliah</label>
+                    <input type="text" id="editKode" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Mata Kuliah</label>
+                    <input type="text" name="matkul"
+                        id="editMatkul" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Jumlah SKS</label>
+                    <input type="number" name="sks"
+                        id="editSks" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Semester</label>
+                    <input type="number" name="semester"
+                        id="editSemester" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Fakultas</label>
+                    <input type="text" name="fakultas"
+                        id="editFakultas" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Program Studi</label>
+                    <input type="text" name="prodi"
+                        id="editProdi" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Minimal SKS yang Harus Lulus</label>
+                    <input type="number" name="minimal_sks"
+                        id="editMinimalSks" min="1"
+                        placeholder="Kosongkan jika tidak ada">
+                </div>
+
+                <div class="form-group">
+                    <label>Mata Kuliah Prasyarat</label>
+
+                    <div class="prasyarat-picker" id="prasyaratEdit">
+                        <div class="prasyarat-search">
+                            <span>⌕</span>
+                            <input type="text"
+                                class="prasyarat-cari"
+                                placeholder="Cari kode atau nama mata kuliah...">
+                        </div>
+
+                        <div class="prasyarat-hasil">
+                            {% for m in daftar_prasyarat %}
+                            <button type="button"
+                                    class="prasyarat-item"
+                                    data-kode="{{ m.kode }}"
+                                    data-nama="{{ m.matkul }}">
+                                <span>
+                                    <strong>{{ m.kode }}</strong>
+                                    <small>{{ m.matkul }}</small>
+                                </span>
+                                <span class="prasyarat-centang">+</span>
+                            </button>
+                            {% endfor %}
+                        </div>
+
+                        <div class="prasyarat-terpilih"></div>
+                        <div class="prasyarat-hidden"></div>
+                    </div>
+
+                    <small>
+                        Cari lalu klik mata kuliah untuk memilih prasyarat.
+                    </small>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button"
+                            class="btn btn-cancel"
+                            onclick="tutupModalEdit()">
+                        Batal
+                    </button>
+
+                    <button type="submit" class="btn btn-save">
+                        Simpan Perubahan
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function bukaModalMatkul() {
+            const modal = document.getElementById("modalTambahMatkul");
+            modal.classList.add("show");
+
+            document.getElementById("prasyaratTambah")
+                .resetPilihan([]);
+        }
+
+        function tutupModalMatkul() {
+            document.getElementById("modalTambahMatkul")
+                .classList.remove("show");
+        }
+
+        function tutupModalEdit() {
+            document.getElementById("modalEditMatkul")
+                .classList.remove("show");
+        }
+
+        function siapkanPrasyarat(id, pilihanAwal = []) {
+            const picker = document.getElementById(id);
+
+            if (!picker) return;
+
+            // Jika sudah pernah diinisialisasi,
+            // cukup perbarui pilihan yang terpilih.
+            if (picker.dataset.ready === "true") {
+                picker.resetPilihan(pilihanAwal);
+                return;
+            }
+
+            picker.dataset.ready = "true";
+
+            const inputCari = picker.querySelector(".prasyarat-cari");
+            const hasil = picker.querySelector(".prasyarat-hasil");
+            const itemSemua = [...picker.querySelectorAll(".prasyarat-item")];
+            const areaTerpilih = picker.querySelector(".prasyarat-terpilih");
+            const areaHidden = picker.querySelector(".prasyarat-hidden");
+
+            const terpilih = new Set();
+
+            function render() {
+                areaTerpilih.innerHTML = "";
+                areaHidden.innerHTML = "";
+
+                terpilih.forEach(kode => {
+                    const item = itemSemua.find(
+                        el => el.dataset.kode === kode
+                    );
+
+                    if (!item) return;
+
+                    const chip = document.createElement("span");
+                    chip.className = "prasyarat-chip";
+                    chip.textContent = kode;
+
+                    const hapus = document.createElement("button");
+                    hapus.type = "button";
+                    hapus.textContent = "×";
+                    hapus.setAttribute("aria-label", "Hapus " + kode);
+
+                    hapus.addEventListener("click", () => {
+                        terpilih.delete(kode);
+                        render();
+                    });
+
+                    chip.appendChild(hapus);
+                    areaTerpilih.appendChild(chip);
+
+                    const hidden = document.createElement("input");
+                    hidden.type = "hidden";
+                    hidden.name = "prasyarat";
+                    hidden.value = kode;
+
+                    areaHidden.appendChild(hidden);
+                });
+
+                itemSemua.forEach(item => {
+                    const dipilih = terpilih.has(item.dataset.kode);
+
+                    item.classList.toggle("is-selected", dipilih);
+                    item.querySelector(".prasyarat-centang").textContent =
+                        dipilih ? "✓" : "+";
+                });
+            }
+
+            function resetPilihan(daftar) {
+                terpilih.clear();
+
+                daftar.forEach(kode => {
+                    const item = itemSemua.find(
+                        el => el.dataset.kode === kode
+                    );
+
+                    if (item && !item.disabled) {
+                        terpilih.add(kode);
+                    }
+                });
+
+                inputCari.value = "";
+                itemSemua.forEach(item => item.hidden = false);
+
+                render();
+            }
+
+            inputCari.addEventListener("input", () => {
+                const kata = inputCari.value.trim().toLowerCase();
+
+                itemSemua.forEach(item => {
+                    const teks = (
+                        item.dataset.kode + " " + item.dataset.nama
+                    ).toLowerCase();
+
+                    item.hidden = !teks.includes(kata);
+                });
+            });
+
+            itemSemua.forEach(item => {
+                item.addEventListener("click", () => {
+                    if (item.disabled) return;
+
+                    const kode = item.dataset.kode;
+
+                    if (terpilih.has(kode)) {
+                        terpilih.delete(kode);
+                    } else {
+                        terpilih.add(kode);
+                    }
+
+                    render();
+                });
+            });
+
+            picker.resetPilihan = resetPilihan;
+            resetPilihan(pilihanAwal);
+        }
+
+        function bukaModalEdit(tombol) {
+            const kode = tombol.dataset.kode;
+
+            document.getElementById("formEditMatkul").action =
+                `/admin/mata-kuliah/${encodeURIComponent(kode)}/edit`;
+
+            document.getElementById("editKode").value = kode;
+            document.getElementById("editMatkul").value = tombol.dataset.matkul;
+            document.getElementById("editSks").value = tombol.dataset.sks;
+            document.getElementById("editSemester").value = tombol.dataset.semester;
+            document.getElementById("editFakultas").value = tombol.dataset.fakultas;
+            document.getElementById("editProdi").value = tombol.dataset.prodi;
+            document.getElementById("editMinimalSks").value =
+                tombol.dataset.minimalSks;
+
+            const picker = document.getElementById("prasyaratEdit");
+
+            // Jangan biarkan mata kuliah menjadi prasyarat dirinya sendiri.
+            picker.querySelectorAll(".prasyarat-item").forEach(item => {
+                const sama = item.dataset.kode === kode;
+                item.disabled = sama;
+                item.classList.toggle("is-disabled", sama);
+            });
+
+            const daftarTerpilih = tombol.dataset.prasyarat
+                ? tombol.dataset.prasyarat.split(",").filter(Boolean)
+                : [];
+
+            siapkanPrasyarat("prasyaratEdit", daftarTerpilih);
+
+            document.getElementById("modalEditMatkul")
+                .classList.add("show");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            siapkanPrasyarat("prasyaratTambah", []);
+
+            document.querySelectorAll(".modal").forEach(modal => {
+                modal.addEventListener("click", event => {
+                    if (event.target === modal) {
+                        modal.classList.remove("show");
+                    }
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const input = document.getElementById("cariMatkul");
+            const tabel = document.getElementById("tabelMatkul");
+            const hasil = document.getElementById("hasilCariMatkul");
+
+            // Pastikan elemen pencarian dan tabel tersedia
+            if (!input || !tabel) {
+                console.error("Elemen pencarian atau tabel tidak ditemukan.");
+                return;
+            }
+
+            function cariMatkulDashboard() {
+                const kataKunci = input.value.trim().toLowerCase();
+                const baris = tabel.querySelectorAll("tbody tr");
+                let jumlahTampil = 0;
+
+                baris.forEach(function (tr) {
+                    // Abaikan baris pesan kosong
+                    if (tr.querySelector(".empty")) {
+                        return;
+                    }
+
+                    const teks = tr.innerText.toLowerCase();
+                    const cocok = teks.includes(kataKunci);
+
+                    tr.hidden = !cocok;
+
+                    if (cocok) {
+                        jumlahTampil++;
+                    }
+                });
+
+                if (hasil) {
+                    if (kataKunci === "") {
+                        hasil.textContent = "";
+                    } else if (jumlahTampil === 0) {
+                        hasil.textContent = "Mata kuliah tidak ditemukan.";
+                    } else {
+                        hasil.textContent =
+                            "Ditemukan " + jumlahTampil + " mata kuliah.";
+                    }
+                }
+            }
+
+            input.addEventListener("input", cariMatkulDashboard);
+
+            // Tombol X untuk menghapus pencarian
+            window.resetCariMatkul = function () {
+                input.value = "";
+                cariMatkulDashboard();
+                input.focus();
+            };
+        });
+
+    </script>
+
+</body>
+</html>

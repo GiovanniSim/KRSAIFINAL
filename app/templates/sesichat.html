@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRS-AI Chat</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+
+<body class="student-dashboard">
+
+    {% include "sidebar.html" %}
+
+    <div class="main-content">
+
+        {% include "navbar.html" %}
+
+        <div class="chat-container">
+
+            <div class="chat-header">
+                <h2>
+                    {% if chat_session %}
+                        {{ chat_session.judul }}
+                    {% else %}
+                        Chat Baru
+                    {% endif %}
+                </h2>
+                <p>Tanyakan sesuatu atau unggah KHS untuk dianalisis.</p>
+            </div>
+
+            <div class="chat-box" id="chat-box">
+                {% for message in messages %}
+
+                    {% if message.role == "user" %}
+                        <div class="chat-user">
+                            <b>You</b>
+                            <p>{{ message.message }}</p>
+                        </div>
+
+                    {% elif message.tipe == "recommendation" %}
+                        <div class="chat-ai">
+                            {% if message.data_hasil %}
+                                {% set hasil = message.data_hasil %}
+
+                                <div class="krs-dashboard">
+                                    <h3>🎓 Rekomendasi KRS</h3>
+                                    <p>Hasil analisis KHS kamu</p>
+
+                                    <div class="krs-metrics">
+                                        <div class="krs-metric">
+                                            <span>IPS Terakhir</span>
+                                            <strong>{{ "%.2f"|format(hasil.get('ips', 0)) }}</strong>
+                                        </div>
+
+                                        <div class="krs-metric">
+                                            <span>IPK</span>
+                                            <strong>{{ "%.2f"|format(hasil.get('ipk', 0)) }}</strong>
+                                        </div>
+
+                                        <div class="krs-metric">
+                                            <span>Batas SKS</span>
+                                            <strong>{{ hasil.get('max_sks', 0) }}</strong>
+                                        </div>
+
+                                        <div class="krs-metric">
+                                            <span>SKS Direkomendasikan</span>
+                                            <strong>{{ hasil.get('total_sks', 0) }}</strong>
+                                        </div>
+
+                                        <div class="krs-metric">
+                                            <span>Total SKS Lulus</span>
+                                            <strong>{{ hasil.get('lulus_sks', 0) }}</strong>
+                                        </div>
+                                    </div>
+
+                                    <h4>✅ Mata Kuliah Direkomendasikan</h4>
+
+                                    {% for matkul in hasil.get('direkomendasikan', []) %}
+                                        <div class="krs-course-card">
+                                            <strong>{{ matkul.get('nama', matkul.get('matkul', '-')) }}</strong>
+                                            <p>{{ matkul.get('kode', '-') }} · {{ matkul.get('sks', 0) }} SKS</p>
+                                            {% if matkul.get('reasoning') %}
+                                                <p>{{ matkul.get('reasoning') }}</p>
+                                            {% endif %}
+                                        </div>
+                                    {% else %}
+                                        <p>Belum ada mata kuliah yang direkomendasikan.</p>
+                                    {% endfor %}
+
+                                    <h4>🔁 Prioritas Mengulang</h4>
+
+                                    {% for matkul in hasil.get('prioritas_mengulang', []) %}
+                                        <div class="krs-course-card">
+                                            <strong>{{ matkul.get('nama', matkul.get('matkul', '-')) }}</strong>
+                                            <p>{{ matkul.get('kode', '-') }} · {{ matkul.get('sks', 0) }} SKS</p>
+                                        </div>
+                                    {% else %}
+                                        <p>Tidak ada mata kuliah prioritas mengulang.</p>
+                                    {% endfor %}
+                                </div>
+
+                            {% else %}
+                                <p>Data rekomendasi belum tersedia.</p>
+                            {% endif %}
+                        </div>
+
+                    {% else %}
+                        <div class="chat-ai">
+                            <b>KRS-AI</b>
+                            <p style="white-space: pre-wrap;">{{ message.message }}</p>
+                        </div>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+
+            <form method="POST"
+                  action="{% if chat_session %}{{ url_for('send_message', session_id=chat_session.id) }}{% else %}{{ url_for('send_message') }}{% endif %}"
+                  enctype="multipart/form-data"
+                  class="chat-form">
+
+                <input
+                    type="file"
+                    id="khs-file"
+                    name="khs"
+                    accept=".pdf,application/pdf"
+                    hidden
+                >
+
+                <button type="button"
+                        class="attach-button"
+                        onclick="document.getElementById('khs-file').click()"
+                        title="Lampirkan KHS PDF">
+                    📎
+                </button>
+
+                <input
+                    type="text"
+                    name="message"
+                    placeholder="Tulis pertanyaan atau analisis KHS..."
+                >
+
+                <button type="submit">Kirim</button>
+
+                <p id="selected-khs" class="selected-khs">
+                    Belum ada file KHS dipilih
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script>
+        const khsInput = document.getElementById('khs-file');
+        const selectedKhs = document.getElementById('selected-khs');
+
+        khsInput.addEventListener('change', function () {
+            selectedKhs.textContent = this.files.length > 0
+                ? '📄 ' + this.files[0].name
+                : 'Belum ada file KHS dipilih';
+        });
+    </script>
+
+</body>
+</html>

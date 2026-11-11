@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - KRS AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+    <div class="admin-layout">
+
+        {% include "admin/sidebar.html" %}
+
+        <div class="admin-main">
+
+            {% include "admin/navbar.html" %}
+
+            <main class="admin-content">
+
+                <section class="welcome">
+                    <h2>Dashboard Admin</h2>
+                    <p>Kelola data mahasiswa dan informasi akademik KRS AI.</p>
+                </section>
+
+                <!-- STATISTIK -->
+                <section class="summary">
+
+                    <div class="stat-card">
+                        <span>Total Mahasiswa</span>
+                        <h2>{{ total_mahasiswa }}</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>Total Fakultas</span>
+                        <h2>{{ total_fakultas }}</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>Total Program Studi</span>
+                        <h2>{{ total_prodi }}</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <span>Total Kelas</span>
+                        <h2>{{ total_kelas }}</h2>
+                    </div>
+
+                </section>
+
+                <!-- TABEL MAHASISWA -->
+                <section class="content-card">
+
+                    <div class="table-heading">
+                        <div>
+                        <h2>Data Mahasiswa</h2>
+                        <p>
+                            Menampilkan {{ mahasiswa|length }} mahasiswa
+                            {% if filter_fakultas %}
+                                — {{ filter_fakultas }}
+                            {% endif %}
+                            {% if filter_prodi %}
+                                — {{ filter_prodi }}
+                            {% endif %}
+                            {% if filter_kelas %}
+                                — {{ filter_kelas }}
+                            {% endif %}
+                        </p>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mahasiswa</th>
+                                    <th>Fakultas</th>
+                                    <th>Program Studi</th>
+                                    <th>Kelas</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for m in mahasiswa %}
+                                <tr>
+                                    <td>
+                                        <div class="student-profile">
+
+                                            {% if m.foto %}
+                                            <img
+                                                src="{{ url_for('static', filename=m.foto) }}"
+                                                alt="Foto {{ m.nama }}"
+                                                class="student-photo"
+                                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                                            <div class="student-photo-placeholder"
+                                                 style="display:none;">
+                                                {{ (m.nama or 'M')[0]|upper }}
+                                            </div>
+                                            {% else %}
+                                            <div class="student-photo-placeholder">
+                                                {{ (m.nama or 'M')[0]|upper }}
+                                            </div>
+                                            {% endif %}
+
+                                            <div>
+                                                <div class="student-name">
+                                                    {{ m.nama }}
+                                                </div>
+                                                <div class="student-npm">
+                                                    {{ m.npm }}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </td>
+
+                                    <td>{{ m.fakultas or "-" }}</td>
+                                    <td>{{ m.prodi or "-" }}</td>
+                                    <td>{{ m.kelas or "-" }}</td>
+
+                                    <td>
+                                        <button
+                                            type="button"
+                                            class="btn btn-edit"
+                                            data-npm="{{ m.npm }}"
+                                            data-nama="{{ m.nama }}"
+                                            data-fakultas="{{ m.fakultas or '' }}"
+                                            data-prodi="{{ m.prodi or '' }}"
+                                            data-kelas="{{ m.kelas or '' }}"
+                                            onclick="bukaEdit(this)">
+                                            Edit
+                                        </button>
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for('admin.admin_delete', npm=m.npm) }}"
+                                            class="delete-form"
+                                            onsubmit="return confirm('Yakin ingin menghapus mahasiswa ini?')">
+
+                                            <button type="submit"
+                                                    class="btn btn-delete">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                                {% else %}
+                                <tr>
+                                    <td colspan="5" class="empty">
+                                        Belum ada data mahasiswa.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT MAHASISWA -->
+    <div class="modal" id="modalEdit">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3>Edit Mahasiswa</h3>
+                <button type="button"
+                        class="close-btn"
+                        onclick="tutupEdit()">
+                    &times;
+                </button>
+            </div>
+
+            <form id="formEdit" method="POST">
+
+                <div class="form-group">
+                    <label>NPM</label>
+                    <input type="text" id="editNpm" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Mahasiswa</label>
+                    <input type="text" name="nama"
+                           id="editNama" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Fakultas</label>
+                    <input type="text" name="fakultas"
+                           id="editFakultas" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Program Studi</label>
+                    <input type="text" name="prodi"
+                           id="editProdi" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Kelas</label>
+                    <input type="text" name="kelas"
+                           id="editKelas" required>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button"
+                            class="btn btn-cancel"
+                            onclick="tutupEdit()">
+                        Batal
+                    </button>
+
+                    <button type="submit" class="btn btn-save">
+                        Simpan Perubahan
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+ <script>
+    function bukaEdit(tombol) {
+        const npm = tombol.dataset.npm;
+
+        document.getElementById("editNpm").value = npm;
+        document.getElementById("editNama").value = tombol.dataset.nama;
+        document.getElementById("editFakultas").value = tombol.dataset.fakultas;
+        document.getElementById("editProdi").value = tombol.dataset.prodi;
+        document.getElementById("editKelas").value = tombol.dataset.kelas;
+
+        const urlUpdate = "{{ url_for('admin.admin_update', npm='NPM_PLACEHOLDER') }}";
+
+        document.getElementById("formEdit").action =
+            urlUpdate.replace(
+                "NPM_PLACEHOLDER",
+                encodeURIComponent(npm)
+            );
+
+        document.getElementById("modalEdit").classList.add("show");
+    }
+
+    function tutupEdit() {
+        document.getElementById("modalEdit").classList.remove("show");
+    }
+
+    document.getElementById("modalEdit").addEventListener("click", function(event) {
+        if (event.target === this) {
+            tutupEdit();
+        }
+    });
+</script>
+
+</body>
+</html>

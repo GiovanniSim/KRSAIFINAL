@@ -1,0 +1,172 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: Arial, sans-serif;
+    background: #f8f5fc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #30213b;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 36px;
+    background: #fff;
+    border-radius: 20px;
+    border-top: 6px solid #64118C;
+    box-shadow: 0 12px 35px rgba(100, 17, 140, 0.15);
+}
+
+.login-card h1 {
+    text-align: center;
+    color: #64118C;
+    font-size: clamp(25px, 5vw, 32px);
+    margin-bottom: 8px;
+}
+
+.login-card h2 {
+    text-align: center;
+    color: #4C086F;
+    font-size: clamp(19px, 4vw, 23px);
+    margin-bottom: 28px;
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-card label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.login-card input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #d9cce3;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #fdfbff;
+}
+
+.login-card input:focus {
+    outline: 2px solid #64118C;
+    border-color: transparent;
+}
+
+.login-card button {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px;
+    margin-top: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #64118C;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.login-card button:hover {
+    background: #E5004F;
+}
+
+.login-card p {
+    margin-top: 22px;
+    text-align: center;
+    color: #706578;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.login-card a {
+    color: #64118C;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-card a:hover {
+    color: #E5004F;
+    text-decoration: underline;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    body {
+        padding: 24px;
+    }
+
+    .login-card {
+        max-width: 400px;
+        padding: 32px;
+    }
+}
+
+/* Smartphone */
+@media (max-width: 480px) {
+    body {
+        padding: 16px;
+        align-items: center;
+    }
+
+    .login-card {
+        max-width: 100%;
+        padding: 26px 22px;
+        border-radius: 16px;
+    }
+
+    .login-card h2 {
+        margin-bottom: 22px;
+    }
+
+    .login-card form {
+        gap: 8px;
+    }
+
+    .login-card input {
+        padding: 13px 11px;
+    }
+
+    .login-card p {
+        font-size: 13px;
+        margin-top: 18px;
+    }
+}
+
+/* Smartphone kecil */
+@media (max-width: 360px) {
+    body {
+        padding: 12px;
+    }
+
+    .login-card {
+        padding: 24px 18px;
+    }
+}
+
+.logo-krs {
+    display: block;
+    width: 180px;
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto 20px;
+    object-fit: contain;
+}

@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registrasi - KRS-AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="register-card">
+        <img src="{{ url_for('static', filename='img/krsAI.png') }}" alt="Logo KRS-AI" class="logo-krs">
+
+        <h1>KRS-AI</h1>
+        <h2>Registrasi Akun</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <label for="npm">NPM</label>
+            <input type="text" id="npm" name="npm" required>
+
+            <label for="nama">Nama</label>
+            <input type="text" id="nama" name="nama" required>
+
+            <label for="fakultas">Fakultas</label>
+            <input type="text" id="fakultas" name="fakultas" required>
+
+            <label for="prodi">Program Studi</label>
+            <input type="text" id="prodi" name="prodi" required>
+
+            <label for="kelas">Kelas</label>
+            <input type="text" id="kelas" name="kelas" required>
+
+            <label for="foto">Foto Profil</label>
+            <input type="file" id="foto" name="foto"
+                   accept=".jpg,.jpeg" required>
+
+            <small>Format JPG/JPEG, maksimal 10 MB.</small>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Daftar</button>
+
+        </form>
+
+        <p>
+            Sudah punya akun?
+            <a href="{{ url_for('login') }}">Login</a>
+        </p>
+
+    </div>
+
+</body>
+</html>

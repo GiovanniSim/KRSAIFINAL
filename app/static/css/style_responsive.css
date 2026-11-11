@@ -1,0 +1,2243 @@
+/* =========================================================
+   KRS-AI — RESPONSIVE STYLESHEET
+   Purple, magenta, and white
+   Replace the contents of static/css/style.css with this file.
+========================================================= */
+
+:root {
+    --purple: #64118C;
+    --purple-dark: #4C086F;
+    --purple-light: #F3EAFA;
+    --purple-soft: #FAF7FC;
+    --magenta: #E5004F;
+    --magenta-light: #FFF0F5;
+    --white: #FFFFFF;
+    --background: #FAF9FC;
+    --text: #282330;
+    --muted: #88818F;
+    --border: #EEE8F2;
+    --shadow: 0 4px 20px rgba(76, 8, 111, 0.06);
+    --radius: 16px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: clip;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--background);
+}
+
+img,
+video,
+iframe,
+canvas,
+svg {
+    max-width: 100%;
+}
+
+img {
+    height: auto;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+    max-width: 100%;
+    font: inherit;
+}
+
+button,
+.btn,
+.dashboard-button,
+.history-button,
+.upload-button {
+    touch-action: manipulation;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(100, 17, 140, 0.28);
+    outline-offset: 2px;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: anywhere;
+}
+
+/* =========================
+   SHARED LAYOUT
+========================= */
+
+.student-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.student-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: calc(100% - 260px);
+    margin-left: 260px;
+}
+
+.student-content {
+    width: 100%;
+    max-width: 1500px;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+/* =========================
+   STUDENT SIDEBAR
+========================= */
+
+.student-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    height: 100vh;
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 25px 18px;
+    color: var(--white);
+    background: var(--purple-dark);
+}
+
+.student-sidebar h2 {
+    margin: 0 0 5px;
+    font-size: 21px;
+}
+
+.student-sidebar p {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 12px;
+}
+
+.student-sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 42px;
+    margin: 5px 0;
+    padding: 11px 13px;
+    border-radius: 9px;
+    color: rgba(255, 255, 255, 0.86);
+    overflow-wrap: anywhere;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.student-sidebar a:hover,
+.student-sidebar a.active {
+    color: var(--white);
+    background: var(--magenta);
+}
+
+/* =========================
+   NAVBARS AND PROFILE
+========================= */
+
+.student-navbar,
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    min-width: 0;
+    padding: 16px 24px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 3px 12px rgba(65, 25, 85, 0.04);
+}
+
+.student-navbar {
+    min-height: 80px;
+    padding: 17px 30px;
+}
+
+.student-navbar h2,
+.student-navbar h3,
+.navbar-title h3 {
+    margin: 0;
+    color: var(--purple-dark);
+    font-size: 21px;
+}
+
+.navbar-title h3 {
+    color: var(--purple);
+    font-size: 23px;
+}
+
+.student-navbar p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.student-profile,
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+}
+
+.student-avatar,
+.student-profile img,
+.profile-photo {
+    display: block;
+    flex: 0 0 43px;
+    width: 43px;
+    height: 43px;
+    border: 2px solid #E7D5F4;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-photo {
+    border-color: var(--purple);
+}
+
+.student-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple);
+    background: var(--purple-light);
+    font-weight: 800;
+}
+
+.student-profile > div,
+.profile-name {
+    min-width: 0;
+}
+
+.student-profile strong {
+    display: block;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.student-profile small {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.profile-name {
+    color: #30213B;
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.profile-dropdown {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.profile-button {
+    min-width: 38px;
+    min-height: 38px;
+    padding: 8px 10px;
+    color: var(--purple);
+    background: var(--purple-light);
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 1000;
+    display: none;
+    min-width: 190px;
+    max-width: min(260px, calc(100vw - 24px));
+    overflow: hidden;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(65, 25, 85, 0.12);
+}
+
+.profile-dropdown:hover .dropdown-menu,
+.profile-dropdown:focus-within .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 15px;
+    color: #40334A;
+    font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+    color: var(--white);
+    background: var(--purple);
+}
+
+/* =========================
+   HEADINGS AND GENERAL CARDS
+========================= */
+
+.page-heading {
+    min-width: 0;
+    margin-bottom: 25px;
+}
+
+.page-heading h1,
+.page-heading h2 {
+    margin: 0;
+    color: var(--purple-dark);
+    font-size: clamp(21px, 3vw, 28px);
+}
+
+.page-heading p {
+    margin-top: 6px;
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.card,
+.content-card,
+.chat-card,
+.course-card {
+    min-width: 0;
+    padding: 23px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.card h3,
+.content-card h3,
+.chat-card h3,
+.course-card h3 {
+    margin-top: 0;
+    color: var(--purple-dark);
+}
+
+/* =========================
+   SUMMARY / STATISTICS
+========================= */
+
+.summary,
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.summary .stat-card,
+.stats-grid .stat-card {
+    min-width: 0;
+    padding: 22px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--purple);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.summary .stat-card:nth-child(2),
+.stats-grid .stat-card:nth-child(2) {
+    border-left-color: var(--magenta);
+}
+
+.summary .stat-card:nth-child(3),
+.stats-grid .stat-card:nth-child(3) {
+    border-left-color: #B88AD3;
+}
+
+.stat-card span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.stat-card h2 {
+    margin: 9px 0 0;
+    color: var(--purple-dark);
+    font-size: clamp(22px, 2.5vw, 28px);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn,
+button.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    max-width: 100%;
+    min-height: 40px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 9px;
+    font-weight: 650;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+    color: var(--white);
+    background: var(--purple);
+}
+
+.btn-primary:hover {
+    background: var(--purple-dark);
+}
+
+.btn-accent {
+    color: var(--white);
+    background: var(--magenta);
+}
+
+.btn-accent:hover {
+    background: #C90045;
+}
+
+.btn-secondary {
+    color: var(--purple);
+    background: var(--purple-light);
+}
+
+.btn-secondary:hover {
+    background: #E7D5F4;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+    margin-bottom: 17px;
+}
+
+.form-group label {
+    color: #51445B;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding: 11px 13px;
+    color: var(--text);
+    background: var(--white);
+    border: 1px solid #E5DCE9;
+    border-radius: 9px;
+    outline: none;
+}
+
+.form-group textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(100, 17, 140, 0.09);
+}
+
+/* =========================
+   TABLES
+========================= */
+
+.table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th {
+    padding: 14px;
+    color: var(--purple-dark);
+    background: var(--purple-soft);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+td {
+    padding: 14px;
+    border-bottom: 1px solid #F2EDF5;
+    overflow-wrap: anywhere;
+}
+
+tbody tr:hover {
+    background: #FCF9FE;
+}
+
+/* =========================
+   REGISTRATION
+========================= */
+
+.register-card {
+    width: calc(100% - 32px);
+    max-width: 480px;
+    margin: 40px auto;
+    padding: 35px;
+    background: var(--white);
+    border-top: 6px solid var(--purple);
+    border-radius: 20px;
+    box-shadow: 0 12px 35px rgba(100, 17, 140, 0.14);
+}
+
+.register-card h1 {
+    margin-bottom: 8px;
+    color: var(--purple);
+    font-size: clamp(25px, 5vw, 32px);
+    text-align: center;
+}
+
+.register-card h2 {
+    margin-bottom: 25px;
+    color: var(--purple-dark);
+    font-size: 22px;
+    text-align: center;
+}
+
+.register-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.register-card label {
+    margin-top: 8px;
+    color: #40334A;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.register-card input {
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding: 11px 12px;
+    background: #FDFBFF;
+    border: 1px solid #DED5E6;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.register-card input:focus {
+    outline: 2px solid var(--purple);
+    border-color: transparent;
+}
+
+.register-card small {
+    margin-bottom: 8px;
+    color: #777080;
+    font-size: 12px;
+}
+
+.register-card button {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 15px;
+    padding: 12px;
+    color: var(--white);
+    background: var(--purple);
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.register-card button:hover {
+    background: var(--magenta);
+}
+
+.register-card p {
+    margin-top: 22px;
+    color: #706578;
+    text-align: center;
+}
+
+.register-card a {
+    color: var(--purple);
+    font-weight: bold;
+}
+
+.register-card a:hover {
+    color: var(--magenta);
+    text-decoration: underline;
+}
+
+/* =========================
+   STUDENT DASHBOARD PAGE
+========================= */
+
+.student-dashboard {
+    min-height: 100vh;
+    background: #F8F5FC;
+    color: #30213B;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+/* Sidebar dashboard: desktop */
+.student-dashboard .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 100vh;
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 25px 18px;
+    background: var(--white);
+    border-right: 1px solid #EEE5F5;
+}
+
+.student-dashboard .sidebar-header {
+    width: 100%;
+    margin-bottom: 28px;
+}
+
+.student-dashboard .sidebar-header h2 {
+    margin: 0;
+    color: var(--purple);
+}
+
+.student-dashboard .sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
+}
+
+.student-dashboard .sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 44px;
+    padding: 12px 14px;
+    color: #51445C;
+    border-radius: 10px;
+    overflow-wrap: anywhere;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.student-dashboard .sidebar-menu a:hover,
+.student-dashboard .sidebar-menu a.active {
+    color: var(--purple);
+    background: #F3E8FB;
+}
+
+.student-dashboard .main-content {
+    width: calc(100% - 250px);
+    min-width: 0;
+    min-height: 100vh;
+    margin-left: 250px;
+    padding: 0 25px 30px;
+}
+
+.student-dashboard .welcome-card {
+    margin: 20px 0 28px;
+    padding: 30px;
+    color: var(--white);
+    background: linear-gradient(135deg, #64118C, #842DB0);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(100, 17, 140, 0.15);
+}
+
+.student-dashboard .welcome-card h1 {
+    margin: 0 0 12px;
+    font-size: clamp(23px, 3vw, 28px);
+}
+
+.student-dashboard .welcome-card p {
+    margin-top: 5px;
+    line-height: 1.7;
+}
+
+.student-dashboard .dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.student-dashboard .dashboard-card {
+    min-width: 0;
+    padding: 26px;
+    background: var(--white);
+    border: 1px solid #EEE5F5;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(65, 25, 85, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-dashboard .dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(100, 17, 140, 0.12);
+}
+
+.student-dashboard .card-icon {
+    margin-bottom: 16px;
+    font-size: 32px;
+}
+
+.student-dashboard .dashboard-card h2 {
+    margin-bottom: 12px;
+    color: var(--purple);
+    font-size: 20px;
+}
+
+.student-dashboard .dashboard-card p {
+    margin-bottom: 22px;
+    color: #766B80;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.student-dashboard .dashboard-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 11px 18px;
+    color: var(--white);
+    background: var(--purple);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.2s ease;
+}
+
+.student-dashboard .dashboard-button:hover {
+    background: var(--magenta);
+}
+
+/* =========================
+   CHAT SESSION
+========================= */
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 950px;
+    min-width: 0;
+    min-height: 65vh;
+    margin: 24px auto;
+    padding: 24px;
+    background: var(--white);
+    border: 1px solid #EEE5F5;
+    border-radius: 18px;
+    box-shadow: 0 6px 25px rgba(65, 25, 85, 0.06);
+}
+
+.chat-header {
+    flex-shrink: 0;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #EEE5F5;
+}
+
+.chat-header h2,
+.chat-container > h2 {
+    margin: 0 0 8px;
+    color: var(--purple-dark);
+    font-size: clamp(20px, 3vw, 23px);
+}
+
+.chat-header p {
+    color: #81768B;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.chat-box {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+    min-height: 250px;
+    max-height: 55vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 12px 4px 24px;
+    overscroll-behavior: contain;
+}
+
+.message-row {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+}
+
+.user-row {
+    justify-content: flex-end;
+}
+
+.ai-row {
+    justify-content: flex-start;
+}
+
+.chat-user,
+.chat-ai,
+.chat-message {
+    width: fit-content;
+    max-width: min(80%, 720px);
+    min-width: 0;
+    padding: 13px 17px;
+    overflow-wrap: anywhere;
+    line-height: 1.65;
+}
+
+.chat-user {
+    align-self: flex-end;
+    color: var(--white);
+    background: var(--purple);
+    border-radius: 18px 18px 4px 18px;
+    box-shadow: 0 3px 8px rgba(100, 17, 140, 0.12);
+}
+
+.chat-ai {
+    align-self: flex-start;
+    color: #302B35;
+    background: #F0F0F2;
+    border-radius: 18px 18px 18px 4px;
+}
+
+.chat-message.ai {
+    color: var(--text);
+    background: var(--purple-light);
+    border-bottom-left-radius: 4px;
+}
+
+.chat-message.user {
+    margin-left: auto;
+    color: var(--white);
+    background: var(--purple);
+    border-bottom-right-radius: 4px;
+}
+
+.message-label {
+    margin-bottom: 7px;
+    font-size: 12px;
+    font-weight: bold;
+    opacity: 0.85;
+}
+
+.chat-user .message-label {
+    color: #F4DFFF;
+}
+
+.chat-ai .message-label {
+    color: var(--purple);
+}
+
+.chat-user p,
+.chat-ai p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+.chat-ai-text {
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.chat-form,
+.chat-input,
+.chat-container form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+}
+
+.chat-form,
+.chat-container form {
+    flex-shrink: 0;
+    padding-top: 18px;
+    margin-top: 10px;
+    border-top: 1px solid #EEE5F5;
+}
+
+.chat-input {
+    padding: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.chat-form input,
+.chat-input input,
+.chat-input textarea,
+.chat-container form input[type="text"] {
+    flex: 1 1 auto;
+    width: 0;
+    min-width: 0;
+    min-height: 46px;
+    padding: 12px 16px;
+    color: #30213B;
+    background: #FAF8FC;
+    border: 1px solid #DED5E6;
+    border-radius: 25px;
+    outline: none;
+}
+
+.chat-form input:focus,
+.chat-input input:focus,
+.chat-input textarea:focus,
+.chat-container form input[type="text"]:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(100, 17, 140, 0.1);
+}
+
+.chat-form button,
+.chat-input button,
+.chat-container form button {
+    flex: 0 0 auto;
+    min-height: 46px;
+    padding: 0 22px;
+    color: var(--white);
+    background: var(--purple);
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.chat-form button:hover,
+.chat-input button:hover,
+.chat-container form button:hover {
+    background: var(--magenta);
+}
+
+.chat-form .attach-button,
+.chat-container .chat-form .attach-button {
+    display: inline-flex;
+    flex: 0 0 46px;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    min-width: 46px;
+    height: 46px;
+    min-height: 46px;
+    padding: 0;
+    margin: 0;
+    color: var(--purple);
+    background: #F3EAFA;
+    border: 1px solid #DED5E6;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.chat-form .attach-button:hover {
+    background: #E7D5F4;
+}
+
+.chat-container .chat-form button[type="submit"] {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 80px;
+    height: 46px;
+    padding: 0 20px;
+}
+
+.selected-khs {
+    margin: 8px 0 0;
+    color: #81768B;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.chat-container .selected-khs {
+    margin-left: 56px;
+}
+
+/* Chat page sidebar — desktop layout */
+body:has(.chat-container) {
+    margin: 0;
+    overflow-x: clip;
+}
+
+body:has(.chat-container) .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 100vh;
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 25px 18px;
+    background: var(--white);
+    border-right: 1px solid #EEE5F5;
+}
+
+body:has(.chat-container) .sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+body:has(.chat-container) .sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 42px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    overflow-wrap: anywhere;
+}
+
+body:has(.chat-container) .chat-container {
+    width: auto;
+    max-width: none;
+    height: calc(100vh - 60px);
+    height: calc(100dvh - 60px);
+    min-height: 400px;
+    margin: 30px 30px 30px 280px;
+    padding: 28px;
+    border-radius: 24px;
+}
+
+body:has(.chat-container) .chat-box {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+}
+
+/* =========================
+   CHAT HISTORY
+========================= */
+
+.history-container {
+    width: 100%;
+    max-width: 1100px;
+    min-width: 0;
+    margin: 28px auto;
+    padding: 0 10px;
+}
+
+.history-header {
+    margin-bottom: 28px;
+}
+
+.history-header h1 {
+    margin-bottom: 8px;
+    color: var(--purple);
+    font-size: clamp(23px, 3vw, 28px);
+}
+
+.history-header p {
+    color: #766B80;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: 0;
+    padding: 22px;
+    background: var(--white);
+    border: 1px solid #EEE5F5;
+    border-radius: 14px;
+    box-shadow: 0 5px 18px rgba(65, 25, 85, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.history-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(100, 17, 140, 0.1);
+}
+
+.history-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.history-icon {
+    display: flex;
+    flex: 0 0 48px;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: #F2E7FA;
+    border-radius: 13px;
+    font-size: 23px;
+}
+
+.history-details {
+    min-width: 0;
+}
+
+.history-details h3 {
+    margin-bottom: 8px;
+    color: #3B2647;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+
+.history-details p {
+    color: #8B8192;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.history-button {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 11px 16px;
+    color: var(--white);
+    background: var(--purple);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    transition: background 0.2s ease;
+}
+
+.history-button:hover {
+    background: var(--magenta);
+}
+
+.history-empty {
+    padding: 55px 24px;
+    text-align: center;
+    background: var(--white);
+    border: 1px dashed #D9C5E8;
+    border-radius: 16px;
+}
+
+.empty-icon {
+    margin-bottom: 18px;
+    font-size: 48px;
+}
+
+.history-empty h2 {
+    margin-bottom: 10px;
+    color: var(--purple);
+    font-size: 21px;
+}
+
+.history-empty p {
+    color: #82778A;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* =========================
+   UPLOAD KHS
+========================= */
+
+.upload-page {
+    width: 100%;
+    max-width: 1050px;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 35px 30px;
+    color: #30213B;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.upload-page .page-heading {
+    margin-bottom: 30px;
+}
+
+.upload-page .page-heading h1 {
+    margin: 0 0 10px;
+    color: var(--purple);
+    font-size: clamp(24px, 3vw, 28px);
+}
+
+.upload-page .page-heading p {
+    max-width: 650px;
+    margin: 0;
+    color: #81768B;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.upload-page .upload-card {
+    width: 100%;
+    max-width: 650px;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 35px;
+    background: var(--white);
+    border: 1px solid #EEE5F5;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(76, 8, 111, 0.07);
+    text-align: center;
+}
+
+.upload-page .pdf-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 22px;
+    background: #F3E8FB;
+    border-radius: 18px;
+}
+
+.upload-page .pdf-icon span {
+    color: var(--purple);
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.upload-page .upload-card h2 {
+    margin: 0 0 10px;
+    color: var(--purple-dark);
+    font-size: 22px;
+}
+
+.upload-page .upload-description {
+    margin: 0 0 28px;
+    color: #81768B;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.upload-page .upload-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+}
+
+.upload-page #khs-file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.upload-page .file-drop-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 175px;
+    padding: 25px 15px;
+    background: #FCF9FF;
+    border: 2px dashed #C9A9DF;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.upload-page .file-drop-area:hover {
+    background: #F5EBFC;
+    border-color: var(--purple);
+}
+
+.upload-page #khs-file:focus-visible + .file-drop-area {
+    outline: 3px solid #C9A9DF;
+    outline-offset: 4px;
+}
+
+.upload-page .file-upload-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    color: var(--white);
+    background: var(--purple);
+    border-radius: 50%;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.upload-page .file-drop-area strong {
+    color: var(--purple);
+    font-size: 15px;
+    overflow-wrap: anywhere;
+}
+
+.upload-page .file-drop-area span:last-child {
+    color: #91849B;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.upload-page .file-name {
+    margin: 16px 0 20px;
+    color: #81768B;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.upload-page .upload-button {
+    width: 100%;
+    min-height: 46px;
+    padding: 15px 20px;
+    color: var(--white);
+    background: var(--purple);
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.upload-page .upload-button:hover {
+    background: var(--purple-dark);
+}
+
+.upload-page .upload-button:focus-visible {
+    outline: 3px solid #C9A9DF;
+    outline-offset: 3px;
+}
+
+.upload-page .upload-info {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+    padding: 14px;
+    background: #FAF7FC;
+    border-radius: 12px;
+    text-align: left;
+}
+
+.upload-page .upload-info span {
+    flex: 0 0 auto;
+    color: var(--purple);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.upload-page .upload-info p {
+    margin: 0;
+    color: #81768B;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* =========================
+   KRS RECOMMENDATION
+========================= */
+
+.krs-intro {
+    margin: 12px 0 18px;
+    color: #5F5870;
+    line-height: 1.7;
+}
+
+.krs-dashboard {
+    width: 100%;
+    max-width: 820px;
+    min-width: 0;
+    margin-top: 12px;
+    padding: 24px;
+    color: #302344;
+    background: var(--white);
+    border: 1px solid #EEE4FA;
+    border-radius: 20px;
+    box-shadow: 0 8px 28px rgba(85, 35, 130, 0.07);
+}
+
+.krs-dashboard-header {
+    padding-bottom: 18px;
+    border-bottom: 1px solid #EEE6F6;
+}
+
+.krs-eyebrow {
+    color: #8B52B2;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.krs-dashboard-header h3 {
+    margin: 8px 0 5px;
+    color: #57128A;
+    font-size: clamp(20px, 3vw, 23px);
+}
+
+.krs-dashboard-header p {
+    margin: 0;
+    color: #81758F;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.krs-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 20px 0 28px;
+}
+
+.krs-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+    padding: 17px;
+    background: #FAF7FF;
+    border: 1px solid #F0E6FB;
+    border-radius: 14px;
+}
+
+.krs-metric span {
+    color: #786B87;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.krs-metric strong {
+    color: #64149A;
+    font-size: clamp(21px, 3vw, 26px);
+    overflow-wrap: anywhere;
+}
+
+.krs-metric strong small {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.krs-section {
+    min-width: 0;
+    margin-top: 25px;
+}
+
+.krs-section h4 {
+    margin: 0 0 14px;
+    color: #49206B;
+    font-size: 16px;
+}
+
+.krs-course-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    min-width: 0;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: var(--white);
+    border: 1px solid #EEE7F5;
+    border-radius: 12px;
+}
+
+.krs-course-info {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.krs-course-info strong {
+    color: #382349;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.krs-course-info span {
+    color: #897B96;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.krs-sks {
+    flex: 0 0 auto;
+    padding: 7px 10px;
+    color: #64149A;
+    background: #F1E5FF;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.krs-total {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 16px;
+    margin-top: 14px;
+    border-top: 1px solid #EEE6F6;
+    font-size: 13px;
+}
+
+.krs-total strong {
+    color: #64149A;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.krs-empty {
+    padding: 14px;
+    color: #786B87;
+    background: #FAF7FF;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.krs-note {
+    padding-top: 16px;
+    margin: 24px 0 0;
+    color: #8A7D94;
+    border-top: 1px solid #EEE6F6;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* =========================
+   RESPONSIVE — TABLET
+========================= */
+
+@media (max-width: 1024px) {
+    .student-content {
+        padding: 24px;
+    }
+
+    .summary,
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .student-dashboard .dashboard-cards {
+        gap: 16px;
+    }
+
+    .student-dashboard .dashboard-card {
+        padding: 21px;
+    }
+
+    body:has(.chat-container) .chat-container {
+        padding: 24px;
+        margin-right: 20px;
+        margin-left: 270px;
+    }
+}
+
+/* =========================
+   RESPONSIVE — MOBILE
+========================= */
+
+@media (max-width: 768px) {
+    .student-layout {
+        display: block;
+    }
+
+    .student-sidebar {
+        position: relative;
+        inset: auto;
+        z-index: 10;
+        width: 100%;
+        height: auto;
+        max-height: none;
+        padding: 14px 16px;
+        overflow: visible;
+    }
+
+    .student-sidebar h2 {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 19px;
+    }
+
+    .student-sidebar p {
+        display: none;
+    }
+
+    .student-sidebar a {
+        display: inline-flex;
+        width: auto;
+        min-height: 38px;
+        margin: 3px 4px 3px 0;
+        padding: 9px 11px;
+        font-size: 12px;
+        vertical-align: middle;
+    }
+
+    .student-main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .student-content {
+        padding: 18px 14px;
+    }
+
+    .student-navbar,
+    .navbar {
+        min-height: 62px;
+        gap: 10px;
+        padding: 12px 14px;
+    }
+
+    .student-navbar h2,
+    .student-navbar h3,
+    .navbar-title h3 {
+        font-size: 18px;
+    }
+
+    .student-profile,
+    .profile {
+        gap: 7px;
+    }
+
+    .student-profile img,
+    .student-avatar,
+    .profile-photo {
+        flex-basis: 36px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .student-profile strong {
+        max-width: 110px;
+        font-size: 12px;
+    }
+
+    .student-profile small {
+        font-size: 10px;
+    }
+
+    .student-profile > div {
+        display: block;
+    }
+
+    .profile-name {
+        max-width: 105px;
+        font-size: 12px;
+    }
+
+    .profile-button {
+        min-width: 34px;
+        min-height: 34px;
+        padding: 7px;
+    }
+
+    .page-heading {
+        margin-bottom: 18px;
+    }
+
+    .page-heading h1,
+    .page-heading h2 {
+        font-size: 23px;
+    }
+
+    .card,
+    .content-card,
+    .chat-card,
+    .course-card {
+        padding: 17px;
+    }
+
+    .summary,
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .summary .stat-card,
+    .stats-grid .stat-card {
+        padding: 14px;
+        border-radius: 13px;
+    }
+
+    .stat-card span {
+        font-size: 11px;
+    }
+
+    .stat-card h2 {
+        margin-top: 7px;
+        font-size: 23px;
+    }
+
+    .student-dashboard .sidebar {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        height: auto;
+        max-height: none;
+        padding: 14px 16px;
+        overflow: visible;
+        border-right: 0;
+        border-bottom: 1px solid #EEE5F5;
+    }
+
+    .student-dashboard .sidebar-header {
+        margin-bottom: 12px;
+    }
+
+    .student-dashboard .sidebar-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .student-dashboard .sidebar-menu a {
+        flex: 1 1 auto;
+        width: auto;
+        min-height: 40px;
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .student-dashboard .main-content {
+        width: 100%;
+        min-height: auto;
+        margin-left: 0;
+        padding: 0 14px 22px;
+    }
+
+    .student-dashboard .welcome-card {
+        margin: 15px 0 20px;
+        padding: 22px 18px;
+        border-radius: 15px;
+    }
+
+    .student-dashboard .welcome-card h1 {
+        font-size: 23px;
+    }
+
+    .student-dashboard .dashboard-cards {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .student-dashboard .dashboard-card {
+        padding: 20px;
+    }
+
+    .student-dashboard .dashboard-card:hover {
+        transform: none;
+    }
+
+    .history-container {
+        margin: 18px auto;
+        padding: 0 14px;
+    }
+
+    .history-header {
+        margin-bottom: 20px;
+    }
+
+    .history-header h1 {
+        font-size: 24px;
+    }
+
+    .history-item {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+        padding: 16px;
+    }
+
+    .history-info {
+        width: 100%;
+        gap: 12px;
+    }
+
+    .history-button {
+        align-self: flex-start;
+    }
+
+    .chat-container {
+        width: auto;
+        max-width: none;
+        min-height: 55vh;
+        margin: 14px;
+        padding: 16px 13px;
+        border-radius: 16px;
+    }
+
+    .chat-header {
+        padding-bottom: 14px;
+        margin-bottom: 12px;
+    }
+
+    .chat-header h2,
+    .chat-container > h2 {
+        font-size: 20px;
+    }
+
+    .chat-box {
+        min-height: 220px;
+        max-height: 58vh;
+        gap: 13px;
+        padding: 8px 2px 16px;
+    }
+
+    .chat-user,
+    .chat-ai,
+    .chat-message {
+        max-width: 90%;
+        padding: 11px 13px;
+        font-size: 13px;
+    }
+
+    .chat-user p,
+    .chat-ai p {
+        font-size: 13px;
+    }
+
+    .chat-form,
+    .chat-container form {
+        gap: 7px;
+        padding-top: 13px;
+    }
+
+    .chat-form input,
+    .chat-container form input[type="text"] {
+        min-height: 42px;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .chat-form .attach-button,
+    .chat-container .chat-form .attach-button {
+        flex-basis: 40px;
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        min-height: 40px;
+        font-size: 18px;
+    }
+
+    .chat-form button,
+    .chat-container form button,
+    .chat-container .chat-form button[type="submit"] {
+        min-width: 0;
+        min-height: 42px;
+        height: 42px;
+        padding: 0 13px;
+        font-size: 13px;
+    }
+
+    .chat-container .selected-khs {
+        margin-left: 0;
+    }
+
+    body:has(.chat-container) .sidebar {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        height: auto;
+        max-height: none;
+        padding: 14px 16px;
+        overflow: visible;
+        border-right: 0;
+        border-bottom: 1px solid #EEE5F5;
+    }
+
+    body:has(.chat-container) .sidebar-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    body:has(.chat-container) .sidebar-menu a {
+        flex: 1 1 auto;
+        width: auto;
+        min-height: 38px;
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    body:has(.chat-container) .chat-container {
+        width: auto;
+        height: calc(100vh - 190px);
+        height: calc(100dvh - 190px);
+        min-height: 350px;
+        margin: 14px;
+        padding: 16px 13px;
+        border-radius: 16px;
+    }
+
+    body:has(.chat-container) .chat-box {
+        min-height: 0;
+        max-height: none;
+    }
+
+    body:has(.chat-container) .chat-user,
+    body:has(.chat-container) .chat-ai {
+        max-width: 90%;
+    }
+
+    .upload-page {
+        padding: 24px 14px;
+    }
+
+    .upload-page .page-heading {
+        margin-bottom: 22px;
+    }
+
+    .upload-page .page-heading h1 {
+        font-size: 24px;
+    }
+
+    .upload-page .upload-card {
+        padding: 24px 16px;
+        border-radius: 16px;
+    }
+
+    .upload-page .upload-card h2 {
+        font-size: 20px;
+    }
+
+    .upload-page .file-drop-area {
+        min-height: 145px;
+        padding: 20px 12px;
+    }
+
+    .krs-dashboard {
+        padding: 17px;
+        border-radius: 16px;
+    }
+
+    .krs-dashboard-header h3 {
+        font-size: 21px;
+    }
+
+    .krs-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+        margin: 16px 0 22px;
+    }
+
+    .krs-metric {
+        gap: 7px;
+        padding: 12px;
+    }
+
+    .krs-metric span {
+        font-size: 11px;
+    }
+
+    .krs-metric strong {
+        font-size: 22px;
+    }
+
+    .krs-course-card {
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .krs-course-info strong {
+        font-size: 13px;
+    }
+
+    .krs-total {
+        align-items: flex-start;
+        font-size: 12px;
+    }
+
+    .register-card {
+        width: calc(100% - 28px);
+        margin: 18px auto;
+        padding: 25px 20px;
+    }
+
+    .table-wrap table {
+        min-width: 560px;
+    }
+
+    th,
+    td {
+        padding: 11px;
+    }
+
+    .btn,
+    button.btn,
+    .history-button,
+    .student-dashboard .dashboard-button {
+        min-height: 42px;
+    }
+}
+
+/* =========================
+   RESPONSIVE — SMALL PHONES
+========================= */
+
+@media (max-width: 400px) {
+    .student-content {
+        padding: 14px 10px;
+    }
+
+    .student-navbar,
+    .navbar {
+        padding: 11px 10px;
+        gap: 7px;
+    }
+
+    .student-navbar h2,
+    .student-navbar h3,
+    .navbar-title h3 {
+        font-size: 16px;
+    }
+
+    .student-profile,
+    .profile {
+        gap: 5px;
+    }
+
+    .student-profile img,
+    .student-avatar,
+    .profile-photo {
+        flex-basis: 32px;
+        width: 32px;
+        height: 32px;
+    }
+
+    .student-profile strong,
+    .profile-name {
+        max-width: 78px;
+        font-size: 11px;
+    }
+
+    .student-profile small {
+        font-size: 9px;
+    }
+
+    .summary,
+    .stats-grid {
+        gap: 8px;
+    }
+
+    .summary .stat-card,
+    .stats-grid .stat-card {
+        padding: 11px;
+    }
+
+    .stat-card h2 {
+        font-size: 21px;
+    }
+
+    .student-dashboard .main-content {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .student-dashboard .sidebar {
+        padding: 12px 10px;
+    }
+
+    .student-dashboard .sidebar-menu a {
+        padding: 9px 8px;
+        font-size: 11px;
+    }
+
+    .chat-container {
+        margin: 10px;
+        padding: 13px 10px;
+    }
+
+    body:has(.chat-container) .chat-container {
+        margin: 10px;
+        padding: 13px 10px;
+        height: calc(100vh - 165px);
+        height: calc(100dvh - 165px);
+        min-height: 320px;
+    }
+
+    .chat-form,
+    .chat-container form {
+        gap: 5px;
+    }
+
+    .chat-form .attach-button,
+    .chat-container .chat-form .attach-button {
+        flex-basis: 36px;
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
+        min-height: 36px;
+    }
+
+    .chat-form button,
+    .chat-container form button,
+    .chat-container .chat-form button[type="submit"] {
+        padding: 0 10px;
+        font-size: 12px;
+    }
+
+    .krs-dashboard {
+        padding: 13px;
+    }
+
+    .krs-metrics {
+        gap: 7px;
+    }
+
+    .krs-metric {
+        padding: 10px;
+    }
+
+    .krs-metric strong {
+        font-size: 20px;
+    }
+
+    .krs-course-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .krs-sks {
+        align-self: flex-start;
+    }
+
+    .upload-page {
+        padding: 20px 10px;
+    }
+
+    .upload-page .upload-card {
+        padding: 21px 13px;
+    }
+
+    .upload-page .upload-info {
+        padding: 11px;
+    }
+
+    .history-container {
+        padding: 0 10px;
+    }
+
+    .history-info {
+        align-items: flex-start;
+    }
+
+    .history-icon {
+        flex-basis: 40px;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .register-card {
+        width: calc(100% - 20px);
+        padding: 22px 15px;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

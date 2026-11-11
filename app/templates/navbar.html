@@ -1,0 +1,37 @@
+<div class="navbar">
+
+    <div class="navbar-title">
+        <h3>KRS-AI</h3>
+    </div>
+
+    <div class="profile">
+
+        <img
+            src="{{ url_for('static', filename=mahasiswa.foto) }}"
+            alt="Foto Profil"
+            class="profile-photo"
+        >
+
+        <span class="profile-name">
+            {{ mahasiswa.nama }}
+        </span>
+
+        <div class="profile-dropdown">
+
+            <button class="profile-button">
+                ▼
+            </button>
+
+            <div class="dropdown-menu">
+
+                <a href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
